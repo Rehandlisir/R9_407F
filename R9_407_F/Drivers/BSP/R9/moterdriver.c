@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_F/Drivers/BSP/R9/moterdriver.c
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407F/R9_407_F/Drivers/BSP/R9/moterdriver.c
  * @Description  :  
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-08-02 10:16:24
+ * @LastEditTime : 2024-08-05 17:06:39
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -449,14 +449,14 @@ void linearactuatorTest(void)
 void linearactuator(void)
 {
 
-	  /*
+	/*
 	A1 : 靠背
 	A2:  腿托角度
 	A3:  腿托长度
 	B1:  举升
 	B2:  座板角度
 	C1:  前支撑轮
-	  */
+	*/
     uint16_t T1_IN1 = 0;
     uint16_t T1_IN2 = 0;
 
@@ -541,6 +541,21 @@ void linearactuator(void)
         g_slaveReg[71] = 0; 
         g_slaveReg[72] = 0;
     }
+/*驾驶过程中不允许调整座椅--清除所有座椅控制指令*/
+ if (g_slaveReg[10] || g_slaveReg[11])
+   {
+        g_slaveReg[66] = 0;
+        g_slaveReg[67] = 0;
+        g_slaveReg[68] = 0;
+        g_slaveReg[69] = 0; 
+        g_slaveReg[70] = 0;
+        g_slaveReg[71] = 0; 
+        g_slaveReg[72] = 0;
+        CanKeybufReceive[1]= 0 ;
+   }
+
+
+
     /*座椅举升控制*/
     if (CanKeybufReceive[1] == SEAT_LIFT || g_slaveReg[67] == 1)
     {

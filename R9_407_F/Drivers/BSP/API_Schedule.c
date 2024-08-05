@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/API_Schedule.c
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407F/R9_407_F/Drivers/BSP/API_Schedule.c
  * @Description  :  
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-24 09:46:06
+ * @LastEditTime : 2024-08-05 10:10:20
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "API_Schedule.h"
@@ -23,7 +23,7 @@ struct TaskStruct TaskST[] =
 		{0, 300, 0, Task_led_control},
 		{0, 1, 0, Task_ModbusSlaveExecute},
 		// {0, 120, 0, Task_ultrasonicreadExecute1},
-	    {0, 500, 0, Task_ultrasonicreadExecute2},
+	    {0, 120, 0, Task_ultrasonicreadExecute2},
 		{0, 1, 0, Task_CanKeyRun},
 		{0, 10, 0, Task_ex_handl},
 		{0, 1, 0, Task_Comsdetect},

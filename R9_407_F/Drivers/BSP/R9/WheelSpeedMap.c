@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/WheelSpeedMap.c
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407F/R9_407_F/Drivers/BSP/R9/WheelSpeedMap.c
  * @Description  :  
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-27 10:46:59
+ * @LastEditTime : 2024-08-05 10:34:16
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -393,7 +393,15 @@ void brake_excute(void)
 	{	brakeflage++;
 		if (brakeflage > 100)
 		{ 
-			brake(1);
+			if (struc_brake.detect_falge)
+			{
+				brake(1);
+				struc_brake.detect_falge = 0;
+			}
+			// else
+			// {
+			// 	brake(2);	
+			// }
 			brakeflage = 0;
 		}
 	}	
@@ -628,5 +636,6 @@ void MPU6050Excute(void)
 	g_slaveReg[24] = (int16_t)(pitch*100);
 	g_slaveReg[25] = (int16_t)(roll*100);
 	g_slaveReg[26] = (int16_t)(yaw*100); 
+	printf("pitch:%d,roll:%d,yaw:%d\n",g_slaveReg[24],g_slaveReg[25],g_slaveReg[26]);
 }
 

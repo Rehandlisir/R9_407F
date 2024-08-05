@@ -155,8 +155,17 @@ void Task_ultrasonicreadExecute2 (void)
 			{
 				modbus_dap21.Host_send_flag=0;//清空发送结束数据标志位
 				HOST_ModbusDap21RX();//接收数据进行处理
+			}
+			// 仅在驾驶过程中传输有效数据
+			if(g_slaveReg[10] || g_slaveReg[11])
+			{
+				g_slaveReg[7] = dap21Data.dyplength2 ; /*超声波数据通过MOdbus上传至上位机进行显示/应用*/   
 			}	
-       		 g_slaveReg[7] = dap21Data.dyplength1 ; /*超声波数据通过MOdbus上传至上位机进行显示/应用*/   
+			else
+			{
+
+				g_slaveReg[7] = 2000 ; /*超声波数据通过MOdbus上传至上位机进行显示/应用*/   
+			}
 			// printf("distence2: %d\n",dap21Data.dyplength2);
 	
 }

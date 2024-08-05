@@ -2,8 +2,8 @@
 #include "./SYSTEM/delay/delay.h"
 
 MLX90393Data mlxdata;
-// #define MLX2350 // 首台机
-#define MLX2322
+#define MLX2350 // 首台机
+// #define MLX2322
 
 void MLX90393_IIC_Init(void)
 {
@@ -20,8 +20,6 @@ void MLX90393_IIC_Init(void)
     
     MLX90393_SDA=1;
     MLX90393_SCL=1;  
-	
-	
 }
 
 //产生MLX90393起始信号

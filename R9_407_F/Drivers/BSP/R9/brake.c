@@ -1,10 +1,10 @@
 /**
- * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407E/R9_407_E/Drivers/BSP/R9/brake.c
+ * @FilePath     : /MDK-ARMc:/Users/fu/Desktop/Code/R9_407F/R9_407_F/Drivers/BSP/R9/brake.c
  * @Description  :  Brake Control and Detection
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-07-25 16:28:59
+ * @LastEditTime : 2024-08-02 16:48:50
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/brake.h"
@@ -86,14 +86,18 @@ void brake_pwm_set(uint16_t ccr1,uint16_t ccr2)
 **/
 void brake(uint8_t flage)
 {
-    if (flage)   
+    if (flage==1)   
     {
-        brake_pwm_set(0 ,0);   /*参考设定值 7%*/
+        brake_pwm_set(0 ,0);   /*参考设定值 5%*/
     }
     else
     {
         brake_pwm_set(2000 ,2000); 
     }
+//    if(flage==2)
+//    {
+//      brake_pwm_set(0 ,0);
+//    }
 }
 
 /**
