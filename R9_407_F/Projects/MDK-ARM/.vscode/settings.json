@@ -19,7 +19,9 @@
         "comheartbeat.h": "c",
         "btim.h": "c",
         "stm32f4xx_hal.h": "c",
-        "variant": "c"
+        "variant": "c",
+        "legrestkinematics.h": "c",
+        "arm_math.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "idf.portWin": "COM11",

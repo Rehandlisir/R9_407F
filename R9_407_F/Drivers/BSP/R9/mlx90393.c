@@ -3,7 +3,7 @@
 
 MLX90393Data mlxdata;
 #define MLX2350 // Ê×Ì¨»ú
-// #define MLX2322
+//  #define MLX2322
 
 void MLX90393_IIC_Init(void)
 {

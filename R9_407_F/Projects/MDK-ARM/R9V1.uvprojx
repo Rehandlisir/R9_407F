@@ -339,9 +339,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F407xx</Define>
+              <Define>USE_HAL_DRIVER,STM32F407xx,__FPU_PRESENT=1,__FPU_USED=1,ARM_MATH_CM4,__CC_ARM</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Drivers;..\..\User;..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\..\Drivers\CMSIS\Include;..\..\Drivers\STM32F4xx_HAL_Driver\Inc;..\..\Drivers\BSP;..\..\Drivers\BSP\TIMER;..\..\Drivers\BSP\WDG</IncludePath>
+              <IncludePath>..\..\Drivers;..\..\User;..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\..\Drivers\CMSIS\Include;..\..\Drivers\STM32F4xx_HAL_Driver\Inc;..\..\Drivers\BSP;..\..\Drivers\BSP\TIMER;..\..\Drivers\BSP\WDG;..\..\Drivers\CMSIS\DSP\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -544,6 +544,11 @@
               <FileName>Comheartbeat.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\BSP\Communicationheartbeat\Comheartbeat.c</FilePath>
+            </File>
+            <File>
+              <FileName>LegRestKinematics.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\Drivers\BSP\LEG_ KINEMATICS\LegRestKinematics.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -829,6 +834,16 @@
               <FileName>stm32f4xx_hal_tim_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\Drivers\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_tim_ex.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>CMSIS/DSP</GroupName>
+          <Files>
+            <File>
+              <FileName>arm_cortexM4lf_math.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\Drivers\CMSIS\DSP\arm_cortexM4lf_math.lib</FilePath>
             </File>
           </Files>
         </Group>

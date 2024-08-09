@@ -228,6 +228,7 @@
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP\\TIMER",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP\\WDG",
+                "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\CMSIS\\DSP\\Include",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include\\arm_linux",
                 "D:\\Keil_v5\\ARM\\ARMCC\\include\\arm_linux_compat",
@@ -246,11 +247,16 @@
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP\\CAN",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP\\Exception_handling",
                 "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP\\Communicationheartbeat",
-                "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\STM32F4xx_HAL_Driver\\Src"
+                "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\BSP\\LEG_ KINEMATICS",
+                "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\STM32F4xx_HAL_Driver\\Src",
+                "c:\\Users\\fu\\Desktop\\Code\\R9_407F\\R9_407_F\\Drivers\\CMSIS\\DSP"
             ],
             "defines": [
                 "USE_HAL_DRIVER",
                 "STM32F407xx",
+                "__FPU_PRESENT=1",
+                "__FPU_USED=1",
+                "ARM_MATH_CM4",
                 "__CC_ARM",
                 "__arm__",
                 "__align(x)=",

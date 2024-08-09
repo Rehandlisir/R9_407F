@@ -31,6 +31,7 @@
 #include "./BSP/R9/Slavemodbus.h"
 #include "./BSP/Exception_handling/exception_handling.h"
 #include "./BSP/Communicationheartbeat/Comheartbeat.h"
+#include "./BSP/LEG_ KINEMATICS/LegRestKinematics.h"
 //任务列表
 void Hard_devInit(void);
 void Task_GetMlx90393(void);

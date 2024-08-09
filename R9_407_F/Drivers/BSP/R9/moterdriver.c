@@ -4,7 +4,7 @@
  * @Author       : lisir lisir@rehand.com
  * @Version      : 0.0.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-08-05 17:06:39
+ * @LastEditTime : 2024-08-09 11:39:11
  * @2024 by Rehand Medical Technology Co., LTD, All Rights Reserved.
 **/
 /**
@@ -442,13 +442,12 @@ void MoterdriveInit(void)
 // 推杆测试程序
 void linearactuatorTest(void)
 {
-
+    
     linearactuator();
 }
 
 void linearactuator(void)
 {
-
 	/*
 	A1 : 靠背
 	A2:  腿托角度
@@ -478,16 +477,16 @@ void linearactuator(void)
     ActorLimitPara.A1_Downpos =1400;
     ActorLimitPara.A1_Uppos = 4100; // 前倾已经超出限位计，但是机械上暂时不约束;
 
-    ActorLimitPara.A2_Downpos = 2200;
+    ActorLimitPara.A2_Downpos = 2000;
     ActorLimitPara.A2_Uppos = 3000; // 上旋已经超出限位计长度，机械上暂时不约束
 
     ActorLimitPara.A3_Downpos = 0; // 下限位无约束
     ActorLimitPara.A3_Uppos = 3000;
 
-    ActorLimitPara.B1_Downpos = 300;
+    ActorLimitPara.B1_Downpos = 0;
     ActorLimitPara.B1_Uppos = 2500;
 
-    ActorLimitPara.B2_Downpos = 300;
+    ActorLimitPara.B2_Downpos = 0;
     ActorLimitPara.B2_Uppos = 2100;
 
     ActorLimitPara.C1_Uppos = 10000;
@@ -531,7 +530,8 @@ void linearactuator(void)
 
     /*如果上下位机通讯失败则下位机主动复位上位机姿态操作指令*/
     /*如果上位机在操作座椅则按键板需要能打断上位机的指令*/  
-    if(comheartstate.com_state == Fail|| CanKeybufReceive[1]!= 0 )
+    /*驾驶过程中或充电过程中不允许调整座椅--清除所有座椅控制指令*/
+    if(comheartstate.com_state == Fail|| CanKeybufReceive[1]!= 0 || g_slaveReg[10] || g_slaveReg[11]||g_slaveReg[2]==1)
     {
         g_slaveReg[66] = 0;
         g_slaveReg[67] = 0;
@@ -541,21 +541,12 @@ void linearactuator(void)
         g_slaveReg[71] = 0; 
         g_slaveReg[72] = 0;
     }
-/*驾驶过程中不允许调整座椅--清除所有座椅控制指令*/
- if (g_slaveReg[10] || g_slaveReg[11])
-   {
-        g_slaveReg[66] = 0;
-        g_slaveReg[67] = 0;
-        g_slaveReg[68] = 0;
-        g_slaveReg[69] = 0; 
-        g_slaveReg[70] = 0;
-        g_slaveReg[71] = 0; 
-        g_slaveReg[72] = 0;
-        CanKeybufReceive[1]= 0 ;
-   }
-
-
-
+    /*驾驶过程中不允许操作座椅*/
+    if ( g_slaveReg[10] || g_slaveReg[11])
+    {
+        CanKeybufReceive[1] = 0;
+        
+    }
     /*座椅举升控制*/
     if (CanKeybufReceive[1] == SEAT_LIFT || g_slaveReg[67] == 1)
     {
@@ -584,9 +575,7 @@ void linearactuator(void)
         g_slaveReg[17] = 2;
         
     }
-
     /*座板控制*/
-
     else if (g_slaveReg[72] == 1)
     {
         linerun_state = Seat_tiltf_run;
@@ -646,11 +635,8 @@ void linearactuator(void)
         linerun_state = Site_run;
         g_slaveReg[18] = 2;
     }
-
     else
-
     {
-
         linerun_state = iddle;
         g_slaveReg[16] = 0;
         g_slaveReg[17] = 0;
@@ -659,7 +645,11 @@ void linearactuator(void)
         g_slaveReg[20] = 0;
 
     }
-
+    /*充电过程中 不可操作轮椅*/
+    if(g_slaveReg[2]==1)
+    {
+        linerun_state = iddle; 
+    }
     
     switch (linerun_state)
     {

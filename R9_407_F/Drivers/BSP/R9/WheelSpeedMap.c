@@ -4,7 +4,7 @@
  * @Author       : lisir
  * @Version      : V1.1
  * @LastEditors  : lisir lisir@rehand.com
- * @LastEditTime : 2024-08-05 10:34:16
+ * @LastEditTime : 2024-08-07 10:05:13
  * @Copyright (c) 2024 by Rehand Medical Technology Co., LTD, All Rights Reserved. 
 **/
 #include "./BSP/R9/underpanControl.h"
@@ -585,7 +585,7 @@ void underpanExcute(void)
 		
 	#endif
 /*本地 或 远程操作 标识判断*/
-	if (velPlanIn_local.adcx || velPlanIn_local.adcy)
+	if((velPlanIn_local.adcx || velPlanIn_local.adcy) &&g_slaveReg[2]==0 ) 
 	{
 		LocalOpflage =1;
 		RemoteOpfalge =0;
@@ -598,8 +598,8 @@ void underpanExcute(void)
 	{
 		LocalOpflage =0;
 	}
-/*远程可操控条件同时满足:(1)本地未操作 (2)蓝牙处于配对状态 (3)触发了移动端摇杆 (4)摇杆未归位 (5)上下位机通讯OK*/
-	if (LocalOpflage ==0 &&g_slaveReg[78] && (g_slaveReg[79] || g_slaveReg[80] ) && g_slaveReg[81]==0 && comheartstate.com_state)
+/*远程可操控条件同时满足:(1)本地未操作 (2)蓝牙处于配对状态 (3)触发了移动端摇杆 (4)摇杆未归位 (5)上下位机通讯OK (6)未在充电*/
+	if (LocalOpflage ==0 &&g_slaveReg[78] && (g_slaveReg[79] || g_slaveReg[80] ) && g_slaveReg[81]==0 && comheartstate.com_state && g_slaveReg[2]==0)
 	{
 		RemoteOpfalge =1;
 	}
@@ -614,7 +614,10 @@ void underpanExcute(void)
 			g_slaveReg[80] = 0;
 	}
 	VelocityLevelSet();
-	brake_excute();
+	if (g_slaveReg[2]==0) /*充电过程不可运行抱闸程序*/
+	{
+		brake_excute();
+	}
 	if(LocalOpflage)
 	{
 		velocity_mapingLocal(velPlanIn_local); /*本地速度规划 */
@@ -636,6 +639,6 @@ void MPU6050Excute(void)
 	g_slaveReg[24] = (int16_t)(pitch*100);
 	g_slaveReg[25] = (int16_t)(roll*100);
 	g_slaveReg[26] = (int16_t)(yaw*100); 
-	printf("pitch:%d,roll:%d,yaw:%d\n",g_slaveReg[24],g_slaveReg[25],g_slaveReg[26]);
+	// printf("pitch:%d,roll:%d,yaw:%d\n",g_slaveReg[24],g_slaveReg[25],g_slaveReg[26]);
 }
 
