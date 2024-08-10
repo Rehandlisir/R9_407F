@@ -40,18 +40,18 @@ void legKinematics(void)
     legkinematicspra.L2 = 310.0;
     legkinematicspra.L3 = 88.2;
     legkinematicspra.L4  =0.0461538*adcdata.leglength_pos+353.769246;
-    legkinematicspra.theta1 = (0.5437*(0.0377272727272727*adcdata.lift_pos-11.31818181818182) +15.24)*PI/180.0;
-    legkinematicspra.theta2 = (1.119*(0.0377272727272727*adcdata.lift_pos-11.31818181818182) +23.21)*PI/180.0;
-    legkinematicspra.theta3 = (0.5593*(0.0325379609544469*adcdata.pedestal_pos-8.3297) +7.986)*PI/180.0;
-    legkinematicspra.theta4 = (0.6119*(0.0746*adcdata.legangle_pos-147.7) +62.22)*PI/180.0;
+    legkinematicspra.theta1 = (180-(0.5437*(0.0377272727272727*adcdata.lift_pos-11.31818181818182) +15.24))*PI/180.0;
+    legkinematicspra.theta2 = (180+(1.119*(0.0377272727272727*adcdata.lift_pos-11.31818181818182) +23.21))*PI/180.0;
+    legkinematicspra.theta3 = (22.8-(0.5593*(0.0325379609544469*adcdata.pedestal_pos-8.3297) +7.986))*PI/180.0;
+    legkinematicspra.theta4 = (180+(0.6119*(0.0746*adcdata.legangle_pos-147.7) +62.22))*PI/180.0;
     legkinematicspra.theta5 = 0;
     /*矩阵初始化及相乘 T1_0 * T2_1*/
-    float32_t pDataKinematicT1_0[16] = {-arm_cos_f32(legkinematicspra.theta1),-arm_sin_f32(legkinematicspra.theta1),0,0,
-                                        arm_sin_f32(legkinematicspra.theta1), -arm_cos_f32(legkinematicspra.theta1),0,0,                                                                               
+    float32_t pDataKinematicT1_0[16] = {arm_cos_f32(legkinematicspra.theta1),-arm_sin_f32(legkinematicspra.theta1),0,0,
+                                        arm_sin_f32(legkinematicspra.theta1), arm_cos_f32(legkinematicspra.theta1),0,0,                                                                               
                                         0,0,1,0,0,0,0,1};                                                                                
                                                                                                                      
-    float32_t pDataKinematicT2_1[16]  = {-arm_cos_f32(legkinematicspra.theta2),-arm_sin_f32(legkinematicspra.theta2),0,legkinematicspra.L1,
-                                        arm_sin_f32(legkinematicspra.theta2), -arm_cos_f32(legkinematicspra.theta2),0,0,                                                                              
+    float32_t pDataKinematicT2_1[16]  = {arm_cos_f32(legkinematicspra.theta2),-arm_sin_f32(legkinematicspra.theta2),0,legkinematicspra.L1,
+                                        arm_sin_f32(legkinematicspra.theta2), arm_cos_f32(legkinematicspra.theta2),0,0,                                                                              
                                         0,0,1,0,0,0,0,1};   
     float32_t pDataDstT2_0[16];
     arm_matrix_instance_f32 pSrcT1_0; // 4 行 4列数据
@@ -68,8 +68,8 @@ void legKinematics(void)
     T2_0pDst.pData = pDataDstT2_0;
     arm_mat_mult_f32(&pSrcT1_0, &pSrcT2_1, &T2_0pDst);
     /*矩阵初始化及相乘 T2_0 * T3_2*/
-    float32_t pDataKinematicT3_2[16] = {-arm_cos_f32 (legkinematicspra.theta3-DevAngle),arm_sin_f32(legkinematicspra.theta3-DevAngle),0,legkinematicspra.L2,
-                                        -arm_sin_f32(legkinematicspra.theta3-DevAngle), -arm_cos_f32(legkinematicspra.theta3-DevAngle),0,0,                                                                               
+    float32_t pDataKinematicT3_2[16] = {arm_cos_f32 (legkinematicspra.theta3),-arm_sin_f32(legkinematicspra.theta3),0,legkinematicspra.L2,
+                                        arm_sin_f32(legkinematicspra.theta3), arm_cos_f32(legkinematicspra.theta3),0,0,                                                                               
                                         0,0,1,0,0,0,0,1};
     float32_t pDataDstT3_0[16];
     arm_matrix_instance_f32 pSrcT2_0; // 4 行 4列数据
@@ -86,8 +86,8 @@ void legKinematics(void)
     T3_0pDst.pData = pDataDstT3_0;
     arm_mat_mult_f32(&pSrcT2_0, &pSrcT3_2, &T3_0pDst);
     /*矩阵初始化及相乘 T3_0 * T4_38*/
-    float32_t pDataKinematicT4_3[16]={-arm_cos_f32(legkinematicspra.theta4),-arm_sin_f32(legkinematicspra.theta4),0,legkinematicspra.L3,
-                                        arm_sin_f32(legkinematicspra.theta4),-arm_cos_f32(legkinematicspra.theta4),0,0,                                                                               
+    float32_t pDataKinematicT4_3[16]={arm_cos_f32(legkinematicspra.theta4),-arm_sin_f32(legkinematicspra.theta4),0,legkinematicspra.L3,
+                                        arm_sin_f32(legkinematicspra.theta4),arm_cos_f32(legkinematicspra.theta4),0,0,                                                                               
                                         0,0,1,0,0,0,0,1};
     float32_t pDataDstT4_0[16];
     arm_matrix_instance_f32 pSrcT3_0; // 4 行 4列数据

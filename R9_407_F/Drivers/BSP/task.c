@@ -82,14 +82,14 @@ void Task_GetADC_AllData(void)
 	getadcData();
 	// vInMeasurementNormal();
     /*数据采集及测试*/
-	printf("lift_pos:%d,pedestal_pos:%d,backboard_pos:%d,legangle_pos:%d,leglength_pos:%d,support_pos:%d\n",adcdata.lift_pos,adcdata.pedestal_pos,adcdata.backboard_pos,adcdata.legangle_pos,adcdata.leglength_pos,adcdata.support_pos);
+	// printf("lift_pos:%d,pedestal_pos:%d,backboard_pos:%d,legangle_pos:%d,leglength_pos:%d,support_pos:%d\n",adcdata.lift_pos,adcdata.pedestal_pos,adcdata.backboard_pos,adcdata.legangle_pos,adcdata.leglength_pos,adcdata.support_pos);
 	// printf("lift_current:%d,pedestal_current:%d,backboard_current:%d,legangle_current:%d,leglength_current:%d,support_current:%d\n",adcdata.lift_current,adcdata.pedestal_current,adcdata.backboard_current,adcdata.legangle_current,adcdata.leglength_current,adcdata.support_current);
 	// printf("adcdata.l_current :%d, adcdata.r_current %d\n",adcdata.l_current,adcdata.r_current);
 	// printf("Xbase:%d,Ybase:%d,xdata:%d,ydata:%d\t\n",adcdata.adc_xbase,adcdata.adc_ybase,adcdata.adc_x,adcdata.adc_y);
 	// printf("adcdata.A1V:%f,adcdata.A2V:%f,adcdata.B1V:%f,adcdata.B2V:%f\n",adcdata.A1V,adcdata.A2V,adcdata.B1V,adcdata.B2V);
 	legKinematics();
-	// printf("legkinematicspra.L4:%f,theta1:%f,theta2:%f,theta3:%f,theta4:%f\n",legkinematicspra.L4,legkinematicspra.theta1*180/PI,legkinematicspra.theta2*180/PI,legkinematicspra.theta3*180/PI,legkinematicspra.theta4*180/PI);
-	// printf("x_o:%f,y_o:%f,z_o:%f\n",legkinematicspra.x_o,legkinematicspra.y_o,legkinematicspra.z_o);
+	printf("legkinematicspra.L4:%f,theta1:%f,theta2:%f,theta3:%f,theta4:%f\n",legkinematicspra.L4,legkinematicspra.theta1*180/PI,legkinematicspra.theta2*180/PI,legkinematicspra.theta3*180/PI,legkinematicspra.theta4*180/PI);
+	printf("x_o:%f,y_o:%f,z_o:%f\n",legkinematicspra.x_o,legkinematicspra.y_o,legkinematicspra.z_o);
 }	
 
 /**
