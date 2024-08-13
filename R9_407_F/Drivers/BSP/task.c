@@ -2,8 +2,8 @@
  * @Author: lisir lisir@rehand.com
  * @Date: 2024-06-07 16:01:18
  * @LastEditors: lisir lisir@rehand.com
- * @LastEditTime: 2024-06-14 15:24:27
- * @FilePath: \MDK-ARMc:\Users\fu\Desktop\Code\CodeV1.1\R9_407_V1.1\R9_407_V1.1\Drivers\BSP\task.c
+ * @LastEditTime: 2024-08-13 10:44:11
+ * @FilePath: \R9_407F\R9_407F\R9_407_F\Drivers\BSP\task.c
  * @Description: 主任务列表
  */
 #include "./BSP/task.h"
@@ -88,8 +88,8 @@ void Task_GetADC_AllData(void)
 	// printf("Xbase:%d,Ybase:%d,xdata:%d,ydata:%d\t\n",adcdata.adc_xbase,adcdata.adc_ybase,adcdata.adc_x,adcdata.adc_y);
 	// printf("adcdata.A1V:%f,adcdata.A2V:%f,adcdata.B1V:%f,adcdata.B2V:%f\n",adcdata.A1V,adcdata.A2V,adcdata.B1V,adcdata.B2V);
 	legKinematics();
-	printf("legkinematicspra.L4:%f,theta1:%f,theta2:%f,theta3:%f,theta4:%f\n",legkinematicspra.L4,legkinematicspra.theta1*180/PI,legkinematicspra.theta2*180/PI,legkinematicspra.theta3*180/PI,legkinematicspra.theta4*180/PI);
-	printf("x_o:%f,y_o:%f,z_o:%f\n",legkinematicspra.x_o,legkinematicspra.y_o,legkinematicspra.z_o);
+	// printf("legkinematicspra.L4:%f,theta1:%f,theta2:%f,theta3:%f,theta4:%f\n",legkinematicspra.L4,legkinematicspra.theta1*180/PI,legkinematicspra.theta2*180/PI,legkinematicspra.theta3*180/PI,legkinematicspra.theta4*180/PI);
+	// printf("x_o:%f,y_o:%f,z_o:%f\n",legkinematicspra.x_o,legkinematicspra.y_o,legkinematicspra.z_o);
 }	
 
 /**

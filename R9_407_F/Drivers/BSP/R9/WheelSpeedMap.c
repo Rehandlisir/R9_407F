@@ -252,22 +252,19 @@ void velocity_mapingRemote(VELOCITY_PIn velPlanIn)
 	velocity_remotepout.underpanVelocity = Value_limitf(0,velocity_remotepout.underpanVelocity,MAX_YDATA);//(MAX_YDATA - YADC_DIM));
 
 	velocity_remotepout.L_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_remotepout.underpanVelocity/MAX_YDATA  * \
-	(sin(velocity_remotepout.steering_angle-pi/6.0) + cos(velocity_remotepout.steering_angle-pi/6.0)) / 1.0 ;
+	(sin(velocity_remotepout.steering_angle-pi/12.0) + cos(velocity_remotepout.steering_angle-pi/12.0)) / 1.0 ;
 	
 	velocity_remotepout.R_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_remotepout.underpanVelocity/MAX_YDATA * \
-	(sin(velocity_remotepout.steering_angle+pi/6.0) - cos(velocity_remotepout.steering_angle+pi/6.0)) / 1.0 ;
+	(sin(velocity_remotepout.steering_angle+pi/12.0) - cos(velocity_remotepout.steering_angle+pi/12.0)) / 1.0 ;
+
+	velocity_remotepout.presentation_velocity = (fabs(velocity_remotepout.L_Velocity) + fabs(velocity_remotepout.R_Velocity))/2.0/1.3;
+	velocity_remotepout.presentation_velocity = Value_limitf (0,velocity_remotepout.presentation_velocity ,velPlanIn.set_Maximum_Strspeed);
+	g_slaveReg[3] = (uint16_t)(velocity_remotepout.presentation_velocity * 100); 
 	/*KM/h —— RPM—— Voltage - Duty cycle*/
 	/*左右目标轮线速度 转换为 占空比根据实际情况进行修正，常数为修正系数*/
-	if  (velPlanIn.set_Maximum_Strspeed == 1.0)
-	{
-		velocity_remotepout.L_Dutycycle = fabs(velocity_remotepout.L_Velocity) * KMPH_TO_Duty*1.172;
-		velocity_remotepout.R_Dutycycle = fabs(velocity_remotepout.R_Velocity) * KMPH_TO_Duty*1.172;
-	}
-	else 
-	{
-		velocity_remotepout.L_Dutycycle = fabs(velocity_remotepout.L_Velocity) * KMPH_TO_Duty;
-		velocity_remotepout.R_Dutycycle = fabs(velocity_remotepout.R_Velocity) * KMPH_TO_Duty;;
-	}
+	velocity_remotepout.L_Dutycycle = fabs(velocity_remotepout.L_Velocity) * KMPH_TO_Duty;
+	velocity_remotepout.R_Dutycycle = fabs(velocity_remotepout.R_Velocity) * KMPH_TO_Duty;
+
 	/*算术平均滤波占空比滤波处理*/
     // velocity_remotepout.L_Dutycycle = filterValue(&filter_L,velocity_remotepout.L_Dutycycle);
 	// velocity_remotepout.R_Dutycycle = filterValue(&filter_R,velocity_remotepout.R_Dutycycle);
@@ -276,8 +273,8 @@ void velocity_mapingRemote(VELOCITY_PIn velPlanIn)
 	velocity_remotepout.L_Dutycycle = slopelimitLDuty(velocity_remotepout.L_Dutycycle,0.08,0.1);
 	velocity_remotepout.R_Dutycycle = slopelimitRDuty(velocity_remotepout.R_Dutycycle,0.08,0.1);
 	
-	velocity_remotepout.L_Dutycycle = Value_limitf(0.0, velocity_remotepout.L_Dutycycle, 0.99);
-	velocity_remotepout.R_Dutycycle = Value_limitf(0.0, velocity_remotepout.R_Dutycycle, 0.99);	
+	velocity_remotepout.L_Dutycycle = Value_limitf(0.0, velocity_remotepout.L_Dutycycle, 0.3);
+	velocity_remotepout.R_Dutycycle = Value_limitf(0.0, velocity_remotepout.R_Dutycycle, 0.3);	
 
 	/* 静止  */
 	if (velPlanIn.adcx == 0 && velPlanIn.adcy  == 0)
@@ -296,33 +293,33 @@ void velocity_mapingRemote(VELOCITY_PIn velPlanIn)
 	}
 	
 	/*向左前转向 */
-	if (velocity_remotepout.steering_angle > pi/2 && velocity_remotepout.steering_angle <(11/12.0)*pi && velPlanIn.adcx!=0 )
+	if (velocity_remotepout.steering_angle > pi/2 && velocity_remotepout.steering_angle <(5/6.0)*pi && velPlanIn.adcx!=0 )
 	{
 		velocity_remotepout.runstate = front_left;
 	}
 	/*向右前转向 */
-	if (velocity_remotepout.steering_angle > pi*1.0/12.0 && velocity_remotepout.steering_angle <1/2.0 *pi && velPlanIn.adcx!=0)
+	if (velocity_remotepout.steering_angle > pi*1.0/6.0 && velocity_remotepout.steering_angle <1/2.0 *pi && velPlanIn.adcx!=0)
 	{
 		velocity_remotepout.runstate = 	front_right;	
 	}
 	/*向左后转向 */
-	if (velocity_remotepout.steering_angle > 1.5*pi  && velocity_remotepout.steering_angle <23/12.0 *pi && velPlanIn.adcx!=0)
+	if (velocity_remotepout.steering_angle > 1.5*pi  && velocity_remotepout.steering_angle <11/6.0 *pi && velPlanIn.adcx!=0)
 	{
 		velocity_remotepout.runstate = back_left;
 	}
 	/*向右后转向 */
-if (velocity_remotepout.steering_angle > 11/12.0 *pi  && velocity_remotepout.steering_angle <1.5 *pi && velPlanIn.adcx!=0 )
+if (velocity_remotepout.steering_angle > 7/6.0 *pi  && velocity_remotepout.steering_angle <1.5 *pi && velPlanIn.adcx!=0 )
 	{
 		velocity_remotepout.runstate = back_right;
 	}
 	/*原地右转 */
-if ((velocity_remotepout.steering_angle >=0 &&  velPlanIn.adcx>0 && velocity_remotepout.steering_angle < 1/12.0 *pi) \
+if ((velocity_remotepout.steering_angle >=0 &&  velPlanIn.adcx>0 && velocity_remotepout.steering_angle < 1/6.0 *pi) \
 	|| (velocity_remotepout.steering_angle >23/12.0*pi  && velocity_remotepout.steering_angle <2 *pi))	
 	{
 		velocity_remotepout.runstate = turnself_right;
 	}
 	/*原地左转 */
-if (velocity_remotepout.steering_angle >11/12.0*pi && velocity_remotepout.steering_angle < 13/12.0 *pi)	
+if (velocity_remotepout.steering_angle >5/6.0*pi && velocity_remotepout.steering_angle < 7/6.0 *pi)	
 	{
 		velocity_remotepout.runstate = turnself_left;
 	}
@@ -390,14 +387,15 @@ void brake_excute(void)
 	// {
 	//   if(struc_brake.detect_falge)
 	//   {
-	{	brakeflage++;
+	{	
+		brakeflage++;
 		if (brakeflage > 100)
 		{ 
-			if (struc_brake.detect_falge)
-			{
+			// if (struc_brake.detect_falge)
+			// {
 				brake(1);
-				struc_brake.detect_falge = 0;
-			}
+			// 	struc_brake.detect_falge = 0;
+			// }
 			// else
 			// {
 			// 	brake(2);	
@@ -571,8 +569,8 @@ void underpanExcute(void)
 		velPlanIn_local.adcy = local_slopelimity(mlxdata.ydata,35,25);  	  
 	#endif
 	#ifdef REMOTE_DI
-		velPlanIn_remote.adcx = remote_slopelimitx(g_slaveReg[79],35,25);  
-		velPlanIn_remote.adcy = remote_slopelimity(g_slaveReg[80],35,25); 
+		velPlanIn_remote.adcx = remote_slopelimitx(g_slaveReg[79],35,50);  
+		velPlanIn_remote.adcy = remote_slopelimity(g_slaveReg[80],35,50); 
 		if(g_slaveReg[78] )
 		{
 			velPlanIn_remote.set_Maximum_Strspeed = 2.0 ; // 默认二档速度
@@ -598,21 +596,23 @@ void underpanExcute(void)
 	{
 		LocalOpflage =0;
 	}
-/*远程可操控条件同时满足:(1)本地未操作 (2)蓝牙处于配对状态 (3)触发了移动端摇杆 (4)摇杆未归位 (5)上下位机通讯OK (6)未在充电*/
-	if (LocalOpflage ==0 &&g_slaveReg[78] && (g_slaveReg[79] || g_slaveReg[80] ) && g_slaveReg[81]==0 && comheartstate.com_state && g_slaveReg[2]==0)
+/*远程可操控条件同时满足:(1)本地未操作 (2)蓝牙处于配对状态 g_slaveReg[78] (5)上下位机通讯OK (6)未在充电*/
+	if (LocalOpflage ==0 &&g_slaveReg[78] && comheartstate.com_state && g_slaveReg[2]==0)
 	{
 		RemoteOpfalge =1;
 	}
 	else
 	{
 		RemoteOpfalge =0;
+		g_slaveReg[79] =0;
+		g_slaveReg[80] =0;
 	}
-/*上下位机通讯失败需要复位远程端数据*/
-    if(comheartstate.com_state == Fail)
-	{
-			g_slaveReg[79] = 0;
-			g_slaveReg[80] = 0;
-	}
+// /*上下位机通讯失败需要复位远程端数据*/
+//     if(comheartstate.com_state == Fail)
+// 	{
+// 			g_slaveReg[79] = 0;
+// 			g_slaveReg[80] = 0;
+// 	}
 	VelocityLevelSet();
 	if (g_slaveReg[2]==0) /*充电过程不可运行抱闸程序*/
 	{
@@ -625,8 +625,9 @@ void underpanExcute(void)
 	if (RemoteOpfalge)
 	{
 		velocity_mapingRemote(velPlanIn_remote); /*远程速度规划 */
+		
 	}
-	
+	printf("X:%d,Y:%d\n",g_slaveReg[79],g_slaveReg[80]);
 }
 
 /**
