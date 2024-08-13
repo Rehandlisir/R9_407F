@@ -590,6 +590,8 @@ void underpanExcute(void)
 		// 本地打断远程操作的同时需要将远程摇杆数据清除
 		g_slaveReg[79] = 0;
 		g_slaveReg[80]  =0;
+		velocity_remotepout.L_Dutycycle = 0;
+		velocity_remotepout.R_Dutycycle =0;
 
 	}	
 	else
@@ -603,9 +605,12 @@ void underpanExcute(void)
 	}
 	else
 	{
+		LocalOpflage=1;
 		RemoteOpfalge =0;
 		g_slaveReg[79] =0;
 		g_slaveReg[80] =0;
+		velocity_remotepout.L_Dutycycle = 0;
+		velocity_remotepout.R_Dutycycle =0;
 	}
 // /*上下位机通讯失败需要复位远程端数据*/
 //     if(comheartstate.com_state == Fail)
