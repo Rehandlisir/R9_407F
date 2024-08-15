@@ -345,6 +345,7 @@ void led_beepControl(void)
  */
 void led_beepControlRK3588(void)
 {
+	// printf("g_slaveReg[82]: %dg_slaveReg[83]: %d g_slaveReg[84]:%d,comheartstate.com_state:%d\n" ,g_slaveReg[82],g_slaveReg[83],g_slaveReg[84],comheartstate.com_state);
 	if (comheartstate.com_state == Fail)/*若通讯失败则复位所有灯控指令*/
 	{
 		g_slaveReg[82] = 0 ;

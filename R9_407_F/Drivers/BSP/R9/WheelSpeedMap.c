@@ -54,10 +54,10 @@ void velocity_mapingLocal(VELOCITY_PIn velPlanIn)
 		// printf("velocity_localpout.underpanVelocity: %f\n",velocity_localpout.underpanVelocity);
 		/*左右轮目标线速度 Km/h*/
 		velocity_localpout.L_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_localpout.underpanVelocity/MAX_YDATA  * \
-		(sin(velocity_localpout.steering_angle-pi/12.0) + cos(velocity_localpout.steering_angle-pi/12.0)) / 1.0 ;
+		(sin(velocity_localpout.steering_angle-pi/12.0) + cos(velocity_localpout.steering_angle-pi/12.0)) / 1.2 ;
 
 		velocity_localpout.R_Velocity = velPlanIn.set_Maximum_Strspeed * velocity_localpout.underpanVelocity/MAX_YDATA * \
-		(sin(velocity_localpout.steering_angle+pi/12.0) - cos(velocity_localpout.steering_angle+pi/12.0)) / 1.0 ;
+		(sin(velocity_localpout.steering_angle+pi/12.0) - cos(velocity_localpout.steering_angle+pi/12.0)) / 1.2 ;
 	#endif 
 	/*模拟型摇杆*/
 	#if defined JOYSTIC_AI
@@ -73,7 +73,7 @@ void velocity_mapingLocal(VELOCITY_PIn velPlanIn)
 		(sin(velocity_localpout.steering_angle+pi/6.0) - cos(velocity_localpout.steering_angle+pi/6.0)) / 1.0 ;
 	#endif	
 	
-	velocity_localpout.presentation_velocity = (fabs(velocity_localpout.L_Velocity) + fabs(velocity_localpout.R_Velocity))/2.0/1.3;
+	velocity_localpout.presentation_velocity = (fabs(velocity_localpout.L_Velocity) + fabs(velocity_localpout.R_Velocity))/2.0;
 	velocity_localpout.presentation_velocity = Value_limitf (0,velocity_localpout.presentation_velocity ,velPlanIn.set_Maximum_Strspeed);
 	g_slaveReg[3] = (uint16_t)(velocity_localpout.presentation_velocity * 100); // RK3588 接受车速信息KM/H
 
@@ -632,7 +632,7 @@ void underpanExcute(void)
 		velocity_mapingRemote(velPlanIn_remote); /*远程速度规划 */
 		
 	}
-	printf("X:%d,Y:%d\n",g_slaveReg[79],g_slaveReg[80]);
+	// printf("X:%d,Y:%d\n",g_slaveReg[79],g_slaveReg[80]);
 }
 
 /**

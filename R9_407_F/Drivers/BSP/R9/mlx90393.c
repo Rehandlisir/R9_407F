@@ -2,8 +2,9 @@
 #include "./SYSTEM/delay/delay.h"
 
 MLX90393Data mlxdata;
-#define MLX2350 // 首台机
-//  #define MLX2322
+// #define MLX2322 //测试机
+#define MachineNo_1 // 首台机
+// #define MachineNo_2 //第二台机
 
 void MLX90393_IIC_Init(void)
 {
@@ -374,9 +375,9 @@ void vInMeasurementNormal(void)
     // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
     delay_ms(2);
 
-
-#else
-    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
+#endif 
+#ifdef MachineNo_1
+    printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
     mlxdata.xdata =(16100 - mlxdata.xdata);
     mlxdata.ydata =(15700 - mlxdata.ydata);
     /*摇杆数据有效段截取*/
@@ -387,8 +388,22 @@ void vInMeasurementNormal(void)
     mlxdata.ydata = filterValue_int(&filter_ADCY, mlxdata.ydata);
     // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
     delay_ms(2);   
-#endif  
+ 
+#endif 
 
+#ifdef MachineNo_2
+    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata,mlxdata.ydata);
+    mlxdata.xdata =(16545 - mlxdata.xdata); 
+    mlxdata.ydata =(16670 - mlxdata.ydata);
+    /*摇杆数据有效段截取*/
+    mlxdata.xdata = Value_limit(MIN_XDATA, Value_Resetzero(-XADC_DIM,  mlxdata.xdata, XADC_DIM), MAX_XDATA);
+    mlxdata.ydata = Value_limit(MIN_YDATA, Value_Resetzero(-YADC_DIM,  mlxdata.ydata, YADC_DIM), MAX_YDATA);
+    /*摇杆有效数据段滤波*/
+    mlxdata.xdata  = filterValue_int(&filter_ADCX, mlxdata.xdata );
+    mlxdata.ydata = filterValue_int(&filter_ADCY, mlxdata.ydata);
+    // printf("mlxdata.xdata:%d,mlxdata.ydata:%d\n",mlxdata.xdata, mlxdata.ydata);
+    delay_ms(2);   
+#endif
 }
 
 void joysticBaseCal(uint16_t cnt)
